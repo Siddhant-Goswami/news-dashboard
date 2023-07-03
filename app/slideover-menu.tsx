@@ -48,8 +48,10 @@ export default function Example({
     setOpen(openMenu);
   }, [newsItem]);
 
-  function handleSubmit() {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     handleGenerate();
+    setOpen(false);
   }
 
   return (
@@ -70,7 +72,10 @@ export default function Example({
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <form className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
+                  <form
+                    className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl"
+                    onSubmit={handleSubmit}
+                  >
                     <div className="h-0 flex-1 overflow-y-auto">
                       <div className="bg-gray-50 px-4 py-6 sm:px-6">
                         <div className="flex items-center justify-between">
@@ -110,6 +115,7 @@ export default function Example({
                               </label>
                               <div className="mt-2">
                                 <input
+                                  readOnly
                                   value={newsItem.name}
                                   type="text"
                                   name="project-name"
@@ -127,7 +133,8 @@ export default function Example({
                               </label>
                               <div className="mt-2">
                                 <textarea
-                                  value={newsItem.content}
+                                  readOnly
+                                  value={newsItem.description}
                                   id="description"
                                   name="description"
                                   rows={4}
@@ -302,7 +309,7 @@ export default function Example({
                         Cancel
                       </button>
                       <button
-                        onClick={() => handleSubmit()}
+                        // onClick={() => handleSubmit()}
                         type="submit"
                         className="ml-4 inline-flex justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                       >

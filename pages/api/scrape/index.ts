@@ -26,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // langchain
         const model = new OpenAI({ temperature: 0.9 });
         const template =
-          'You are a journalist of Times of india, Write a news article using the given article: {article}';
+          'You are a journalist of Times of india, Write a news article in 600 words using the given article: {article}';
         const prompt = new PromptTemplate({
           template: template,
           inputVariables: ['article']

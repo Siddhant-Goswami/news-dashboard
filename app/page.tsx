@@ -139,7 +139,7 @@ export default async function IndexPage({
   const handleNewsGenration = async () => {
     setLoading(true);
     try {
-      const result = await generateNews(newsItem.name, newsItem.content);
+      const result = await generateNews(newsItem.name, newsItem.description);
       // console.log('result', result);
       setResults(result);
     } catch (error) {
@@ -164,7 +164,7 @@ export default async function IndexPage({
           <SlideoverMenu
             newsItem={newsItem}
             openMenu={open}
-            handleGenerate={handleNewsGenration}
+            handleGenerate={handleCrawl}
           />
         ) : (
           <></>

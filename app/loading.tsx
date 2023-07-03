@@ -4,7 +4,7 @@ export default async function Loading() {
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
       <Title>AI News Generator</Title>
-      <Text>Enter source article link below</Text>
+      <Text>Enter BBC article link below</Text>
       {/* 
       <div className="flex gap-4 mt-5">
         <TextInput placeholder="Enter a URL" />
