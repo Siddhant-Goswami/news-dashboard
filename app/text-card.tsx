@@ -9,7 +9,7 @@ export default function TextCard({ results }: { results: any }) {
         <Title>{results.title}</Title>
         <Text>{results.text}</Text>
       </Card>
-      <div className="flex items-center justify-center mt-3 space-x-5">
+      <div className="flex items-center justify-center mt-8 space-x-5">
         <a
           href="#"
           className="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"

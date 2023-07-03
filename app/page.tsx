@@ -3,7 +3,7 @@
 import { Card, Title, Text, Button } from '@tremor/react';
 import { useEffect, useState } from 'react';
 import Search from './search';
-import Modal from './modal';
+import Toast from './toast';
 
 import NewsItem from './news-item';
 import TextCard from './text-card';
@@ -159,7 +159,14 @@ export default async function IndexPage({
         </Button>
       </div>
       <div className="mt-6">
-        {results ? <TextCard results={results} /> : <NewsItem news={news} />}
+        {results ? (
+          <>
+            <TextCard results={results} />
+            <Toast />
+          </>
+        ) : (
+          <NewsItem news={news} />
+        )}
         {newsItem ? (
           <SlideoverMenu
             newsItem={newsItem}
