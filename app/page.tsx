@@ -155,7 +155,7 @@ export default async function IndexPage({
       <div className="flex gap-4 mt-4">
         <Search />
         <Button loading={loading} variant="secondary" onClick={handleCrawl}>
-          Start
+          Generate News
         </Button>
       </div>
       <div className="mt-6">

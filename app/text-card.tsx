@@ -5,7 +5,7 @@ export default function TextCard({ results }: { results: any }) {
     <>
       {/* <Metric>CHF 1,995</Metric> */}
 
-      <Card className="flex flex-col items-center justify-center gap-4">
+      <Card className="flex flex-col items-center justify-center whitespace-pre-line whitespace-pre-wrap gap-4">
         <Title>{results.title}</Title>
         <Text>{results.text}</Text>
       </Card>

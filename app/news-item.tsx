@@ -55,14 +55,14 @@ export default function NewsItem({ news }: { news: News[] }) {
               <h3 className="text-sm font-medium text-gray-900">{item.name}</h3>
               <p className="text-sm text-gray-500">{item.description}</p>
 
-              <div
+              {/* <div
                 onClick={() => {
                   window.open(item.href, '_blank');
                 }}
                 className="flex flex-1 flex-col justify-end cursor-pointer"
               >
                 <p className="text-sm italic text-blue-500">Read full story</p>
-              </div>
+              </div> */}
             </div>
           </div>
         ))}

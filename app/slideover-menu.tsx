@@ -99,7 +99,7 @@ export default function Example({
                         <div className="mt-1">
                           <p className="text-sm text-gray-500">
                             Get started by filling in the information below to
-                            genrate your news.
+                            generate your news.
                           </p>
                         </div>
                       </div>
