@@ -9,14 +9,14 @@ export default function TextCard({ results }: { results: any }) {
         <Title>{results.title}</Title>
         <Text>{results.text}</Text>
       </Card>
-      <div class="flex items-center justify-center mt-3 space-x-5">
+      <div className="flex items-center justify-center mt-3 space-x-5">
         <a
           href="#"
-          class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+          className="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
         >
           <svg
             aria-hidden="true"
-            class="w-4 h-4 mr-1.5"
+            className="w-4 h-4 mr-1.5"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -27,11 +27,11 @@ export default function TextCard({ results }: { results: any }) {
         </a>
         <a
           href="#"
-          class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group"
+          className="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group"
         >
           <svg
             aria-hidden="true"
-            class="w-4 h-4 mr-1.5"
+            className="w-4 h-4 mr-1.5"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"

@@ -7,33 +7,25 @@ import { LLMChain } from 'langchain/chains';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { url } = req.body;
-    console.log('url', url);
-    if (url) {
+    const { title, description } = req.body;
+    console.log('Body', title, description);
+    if (title && description) {
       try {
-        const response = await fetch(url);
-        const body = await response.text();
-        const $ = cheerio.load(body);
-        const content: string[] = [];
-
-        $('article p').each(function (i, elem) {
-          content[i] = $(this).text();
-        });
-
-        const siteBody = content.join('\n\n');
-        const title = $('article header h1').text();
+        const newsDescription = description;
+        // console.log('siteBody', siteBody);
+        // console.log('title', title);
 
         // langchain
         const model = new OpenAI({ temperature: 0.9 });
         const template =
-          'You are a journalist of Times of india, Write a news article using the given article: {article}';
+          'You are a journalist of Times of india, Write a news article with the given information: {article}';
         const prompt = new PromptTemplate({
           template: template,
           inputVariables: ['article']
         });
 
         const chain = new LLMChain({ llm: model, prompt: prompt });
-        const article = siteBody;
+        const article = newsDescription;
         const summarisedResponse = await chain.call({ article });
         console.log('open ai', summarisedResponse, summarisedResponse.text);
 

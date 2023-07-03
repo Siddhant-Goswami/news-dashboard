@@ -7,6 +7,7 @@ interface News {
   id: number;
   name: string;
   description: string;
+  content: string;
   author: string;
   imageSrc: string;
   imageAlt: string;
@@ -15,9 +16,11 @@ interface News {
 
 export default function NewsItem({ news }: { news: News[] }) {
   const { searchText, setSearchText } = useSearch();
+  const { newsItem, setNewsItem } = useSearch();
 
-  function handleSearch(url: string) {
-    setSearchText(url);
+  function handleSearch(item: any) {
+    setNewsItem(item);
+    setSearchText(item.href);
   }
 
   return (
@@ -37,7 +40,7 @@ export default function NewsItem({ news }: { news: News[] }) {
       <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
         {news.map((item) => (
           <div
-            onClick={() => handleSearch(item.href)}
+            onClick={() => handleSearch(item)}
             key={item.id}
             className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
           >
