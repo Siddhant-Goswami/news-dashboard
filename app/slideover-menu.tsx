@@ -19,6 +19,7 @@ import {
   LinkIcon,
   PlusIcon,
   QuestionMarkCircleIcon,
+  ExclamationCircleIcon,
   LockClosedIcon
 } from '@heroicons/react/20/solid';
 
@@ -27,8 +28,7 @@ const team = [
     name: 'Tom Cook',
     email: 'tom.cook@example.com',
     href: '#',
-    imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+    imageUrl: 'https://www.6rs.co.uk/wp-content/uploads/2021/10/Beeb.png'
   }
 ];
 
@@ -120,63 +120,11 @@ export default function Example({
                                   type="text"
                                   name="project-name"
                                   id="project-name"
-                                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-500 sm:text-sm sm:leading-6"
                                 />
                               </div>
                             </div>
-                            <div>
-                              <label
-                                htmlFor="description"
-                                className="block text-sm font-medium leading-6 text-gray-900"
-                              >
-                                Description
-                              </label>
-                              <div className="mt-2">
-                                <textarea
-                                  readOnly
-                                  value={newsItem.description}
-                                  id="description"
-                                  name="description"
-                                  rows={4}
-                                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
-                                  defaultValue={''}
-                                />
-                              </div>
-                            </div>
-                            {/* <div>
-                              <h3 className="text-sm font-medium leading-6 text-gray-900">
-                                Author
-                              </h3>
-                              <div className="mt-2">
-                                <div className="flex space-x-2">
-                                  {team.map((person) => (
-                                    <a
-                                      key={person.email}
-                                      href={person.href}
-                                      className="rounded-full hover:opacity-75"
-                                    >
-                                      <img
-                                        className="inline-block h-8 w-8 rounded-full"
-                                        src={person.imageUrl}
-                                        alt={person.name}
-                                      />
-                                    </a>
-                                  ))}
-                                  <button
-                                    type="button"
-                                    className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                                  >
-                                    <span className="sr-only">
-                                      Add team member
-                                    </span>
-                                    <PlusIcon
-                                      className="h-5 w-5"
-                                      aria-hidden="true"
-                                    />
-                                  </button>
-                                </div>
-                              </div>
-                            </div> */}
+
                             <fieldset>
                               <legend className="text-sm font-medium leading-6 text-gray-900">
                                 LLM (Large Language Model)
@@ -189,7 +137,7 @@ export default function Example({
                                       name="privacy"
                                       aria-describedby="privacy-public-description"
                                       type="radio"
-                                      className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-600"
+                                      className="h-4 w-4 border-gray-300 text-blue-500"
                                       defaultChecked
                                     />
                                   </div>
@@ -217,7 +165,7 @@ export default function Example({
                                         name="privacy"
                                         aria-describedby="privacy-private-to-project-description"
                                         type="radio"
-                                        className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-600"
+                                        className="h-4 w-4 border-gray-300 text-blue-500"
                                       />
                                     </div>
                                     <div className="pl-7 text-sm leading-6">
@@ -245,7 +193,7 @@ export default function Example({
                                         name="privacy"
                                         aria-describedby="privacy-private-to-project-description"
                                         type="radio"
-                                        className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-600"
+                                        className="h-4 w-4 border-gray-300 text-blue-500"
                                       />
                                     </div>
                                     <div className="pl-7 text-sm leading-6">
@@ -266,35 +214,104 @@ export default function Example({
                                 </div>
                               </div>
                             </fieldset>
-                          </div>
-                          <div className="pb-6 pt-4">
-                            <div className="flex text-sm">
-                              <a
-                                href="#"
-                                className="group inline-flex items-center font-medium text-blue-600 hover:text-blue-900"
-                              >
-                                <LinkIcon
-                                  className="h-5 w-5 text-blue-500 group-hover:text-blue-900"
-                                  aria-hidden="true"
-                                />
-                                <span className="ml-2">{newsItem.href}</span>
-                              </a>
+                            <div>
+                              <h3 className="text-sm font-medium leading-6 text-gray-900">
+                                Sources
+                              </h3>
+                              <div className="mt-2">
+                                <div className="flex space-x-2">
+                                  {team.map((person) => (
+                                    <a
+                                      key={person.email}
+                                      href={person.href}
+                                      className="rounded-full hover:opacity-75"
+                                    >
+                                      <img
+                                        className="inline-block h-8 w-8 rounded-full"
+                                        src={person.imageUrl}
+                                        alt={person.name}
+                                      />
+                                    </a>
+                                  ))}
+                                  <button
+                                    type="button"
+                                    title="Support for adding more sources is comming soon."
+                                    className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500"
+                                  >
+                                    <span className="sr-only">
+                                      Add more sources
+                                    </span>
+                                    <PlusIcon
+                                      className="h-5 w-5"
+                                      aria-hidden="true"
+                                    />
+                                  </button>
+                                </div>
+                              </div>
+                              <div className="pb-4 pt-4">
+                                <div className="flex text-sm">
+                                  <a
+                                    href="#"
+                                    className="group inline-flex items-center font-medium text-blue-500 hover:text-blue-600"
+                                  >
+                                    <LinkIcon
+                                      className="h-5 w-5 text-blue-500 group-hover:text-blue-600"
+                                      aria-hidden="true"
+                                    />
+                                    <span className="ml-2">
+                                      {newsItem.href}
+                                    </span>
+                                  </a>
+                                </div>
+                                <div className="mt-4 flex text-sm">
+                                  <a
+                                    href="#"
+                                    className="group inline-flex items-center text-xs text-gray-500 hover:text-gray-900"
+                                  >
+                                    <ExclamationCircleIcon
+                                      className="h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                                      aria-hidden="true"
+                                    />
+
+                                    <span className="ml-2">
+                                      By default source of the news is BBC.
+                                      Support for adding more sources is comming
+                                      soon.
+                                    </span>
+                                  </a>
+                                </div>
+                                {/* <div className="mt-4 flex text-sm">
+                                  <a
+                                    href="#"
+                                    className="group inline-flex items-center text-gray-500 hover:text-gray-900"
+                                  >
+                                    <LockClosedIcon
+                                      className="h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                      aria-hidden="true"
+                                    />
+                                    <span className="ml-2">Generate Video</span>
+                                  </a>
+                                </div> */}
+                              </div>
                             </div>
-                            <div className="mt-4 flex text-sm">
-                              <a
-                                href="#"
-                                className="group inline-flex items-center text-gray-500 hover:text-gray-900"
+                            <div>
+                              <label
+                                htmlFor="description"
+                                className="block text-sm font-medium leading-6 text-gray-900"
                               >
-                                {/* <QuestionMarkCircleIcon
-                                  className="h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                  aria-hidden="true"
-                                /> */}
-                                <LockClosedIcon
-                                  className="h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                  aria-hidden="true"
+                                Insights
+                              </label>
+                              <div className="mt-2">
+                                <textarea
+                                  readOnly
+                                  // value={newsItem.description}
+                                  placeholder="Enter personal insights to the news. (optional)"
+                                  id="description"
+                                  name="description"
+                                  rows={4}
+                                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
                                 />
-                                <span className="ml-2">Generate Video</span>
-                              </a>
+                              </div>
                             </div>
                           </div>
                         </div>
