@@ -22,6 +22,7 @@ import {
   ExclamationCircleIcon,
   LockClosedIcon
 } from '@heroicons/react/20/solid';
+import axios from 'axios';
 
 const team = [
   {
@@ -32,7 +33,7 @@ const team = [
   }
 ];
 
-export default function Example({
+export default async function Example({
   newsItem,
   openMenu,
   handleGenerate
@@ -42,17 +43,49 @@ export default function Example({
   handleGenerate: any;
 }) {
   const [open, setOpen] = useState(openMenu);
+  const [newsDetail, setNewsDetail] = useState<any>(null);
 
   useEffect(() => {
     console.log('news', newsItem, open);
     setOpen(openMenu);
+    getNewsDetails();
   }, [newsItem]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    handleGenerate();
+    handleGenerate(content);
     setOpen(false);
   }
+  function filterAndConcatenate(data: any) {
+    let paragraph = '';
+
+    data?.forEach((item: any) => {
+      if (item.content && item.content.contentType === 'text') {
+        paragraph += item.content.contentValue + '\n\n';
+      }
+    });
+
+    return paragraph.trim();
+  }
+
+  const getNewsDetails = async () => {
+    const options = {
+      method: 'GET',
+      url: `https://cricbuzz-cricket.p.rapidapi.com/news/v1/detail/${newsItem.id}`,
+      headers: {
+        'X-RapidAPI-Key': process.env.RAPID_KEY as string,
+        'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
+      }
+    };
+
+    try {
+      const response = await axios.request(options);
+      setNewsDetail(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const content = filterAndConcatenate(newsDetail?.content);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -116,7 +149,7 @@ export default function Example({
                               <div className="mt-2">
                                 <input
                                   readOnly
-                                  value={newsItem.name}
+                                  value={newsItem.seoHeadline}
                                   type="text"
                                   name="project-name"
                                   id="project-name"
@@ -215,7 +248,7 @@ export default function Example({
                               </div>
                             </fieldset>
                             <div>
-                              <h3 className="text-sm font-medium leading-6 text-gray-900">
+                              {/* <h3 className="text-sm font-medium leading-6 text-gray-900">
                                 Sources
                               </h3>
                               <div className="mt-2">
@@ -247,23 +280,23 @@ export default function Example({
                                     />
                                   </button>
                                 </div>
-                              </div>
+                              </div> */}
                               <div className="pb-4 pt-4">
                                 <div className="flex text-sm">
                                   <a
                                     href="#"
-                                    className="group inline-flex items-center font-medium text-blue-500 hover:text-blue-600"
+                                    className="group inline-flex items-center font-medium text-blue-500 hover:text-blue-600 w-full"
                                   >
                                     <LinkIcon
                                       className="h-5 w-5 text-blue-500 group-hover:text-blue-600"
                                       aria-hidden="true"
                                     />
-                                    <span className="ml-2">
-                                      {newsItem.href}
+                                    <span className="ml-2 truncate">
+                                      {newsDetail?.appIndex?.webURL}
                                     </span>
                                   </a>
                                 </div>
-                                <div className="mt-4 flex text-sm">
+                                {/* <div className="mt-4 flex text-sm">
                                   <a
                                     href="#"
                                     className="group inline-flex items-center text-xs text-gray-500 hover:text-gray-900"
@@ -279,7 +312,7 @@ export default function Example({
                                       soon.
                                     </span>
                                   </a>
-                                </div>
+                                </div> */}
                                 {/* <div className="mt-4 flex text-sm">
                                   <a
                                     href="#"
@@ -292,6 +325,25 @@ export default function Example({
                                     <span className="ml-2">Generate Video</span>
                                   </a>
                                 </div> */}
+                              </div>
+                            </div>
+                            <div>
+                              <label
+                                htmlFor="description"
+                                className="block text-sm font-medium leading-6 text-gray-900"
+                              >
+                                Content
+                              </label>
+                              <div className="mt-2">
+                                <textarea
+                                  readOnly
+                                  value={content}
+                                  placeholder="Enter personal insights to the news. (optional)"
+                                  id="description"
+                                  name="description"
+                                  rows={16}
+                                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
+                                />
                               </div>
                             </div>
                             <div>
@@ -326,7 +378,6 @@ export default function Example({
                         Cancel
                       </button>
                       <button
-                        // onClick={() => handleSubmit()}
                         type="submit"
                         className="ml-4 inline-flex justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                       >

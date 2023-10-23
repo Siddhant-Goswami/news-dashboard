@@ -7,15 +7,11 @@ import { LLMChain } from 'langchain/chains';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { title, description } = req.body;
-    console.log('Body', title, description);
-    if (title && description) {
-      try {
-        const newsDescription = description;
-        // console.log('siteBody', siteBody);
-        // console.log('title', title);
+    const { content, title } = req.body;
 
-        // langchain
+    if (title && content) {
+      try {
+
         const model = new OpenAI({ temperature: 0.9 });
         const template =
           'You are a journalist of Times of india, Write a news 500 word article with the given information: {article}';
@@ -25,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         });
 
         const chain = new LLMChain({ llm: model, prompt: prompt });
-        const article = newsDescription;
+        const article = content;
         const summarisedResponse = await chain.call({ article });
         console.log('open ai', summarisedResponse, summarisedResponse.text);
 

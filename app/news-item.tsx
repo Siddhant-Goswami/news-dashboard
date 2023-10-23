@@ -1,7 +1,7 @@
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@tremor/react';
+import { TabGroup, TabList, Tab } from '@tremor/react';
 import { ArrowTrendingUpIcon } from '@heroicons/react/24/solid';
-import { usePathname, useRouter } from 'next/navigation';
 import { useSearch } from '../lib/search-context';
+import { useEffect, useState } from 'react';
 
 interface News {
   id: number;
@@ -14,14 +14,50 @@ interface News {
   href: string;
 }
 
-export default function NewsItem({ news }: { news: News[] }) {
-  const { searchText, setSearchText } = useSearch();
-  const { newsItem, setNewsItem } = useSearch();
+function fetchImage(imageId: string) {
+  return new Promise((resolve, reject) => {
+    fetch(
+      `https://cricbuzz-cricket.p.rapidapi.com/img/v1/i1/c${imageId}/i.jpg?p=det`,
+      {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': process.env.RAPID_KEY as string,
+          'X-RapidAPI-Host': 'cricbuzz-cricket.p.rapidapi.com'
+        }
+      }
+    )
+      .then((response) => response.blob())
+      .then((blob) => {
+        const imageUrl = URL.createObjectURL(blob);
+        resolve(imageUrl);
+      })
+      .catch(reject);
+  });
+}
+export default function NewsItem({ news }: { news: any }) {
+  const { searchText, setSearchText, newsItem, setNewsItem } = useSearch();
 
   function handleSearch(item: any) {
     setNewsItem(item);
-    setSearchText(item.href);
+    //setSearchText(item?.links);
   }
+
+  const [images, setImages] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    news.forEach(({ story }: any) => {
+      fetchImage(story.imageId)
+        .then((imageUrl) => {
+          setImages((prevImages) => ({
+            ...prevImages,
+            [story.imageId]: imageUrl
+          }));
+        })
+        .catch((error) => {
+          console.error('Failed to fetch image:', error);
+        });
+    });
+  }, [news]);
 
   return (
     <section
@@ -38,34 +74,28 @@ export default function NewsItem({ news }: { news: News[] }) {
       </TabGroup>
 
       <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
-        {news.map((item) => (
-          <div
-            onClick={() => handleSearch(item)}
-            key={item.id}
-            className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
-          >
-            <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96 cursor-pointer">
-              <img
-                src={item.imageSrc}
-                alt={item.imageAlt}
-                className="h-full w-full object-cover object-center sm:h-full sm:w-full"
-              />
+        {news?.map(({ story }: { story: any }) => {
+          return (
+            <div
+              onClick={() => handleSearch(story)}
+              key={story?.id}
+              className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
+            >
+              <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96 cursor-pointer">
+                <img
+                  src={images[story.imageId]}
+                  className="h-full w-full object-cover object-center sm:h-full sm:w-full"
+                />
+              </div>
+              <div className="flex flex-1 flex-col space-y-2 p-4">
+                <h3 className="text-sm font-medium text-gray-900">
+                  {story.seoHeadline}
+                </h3>
+                <p className="text-sm text-gray-500">{story.intro}</p>
+              </div>
             </div>
-            <div className="flex flex-1 flex-col space-y-2 p-4">
-              <h3 className="text-sm font-medium text-gray-900">{item.name}</h3>
-              <p className="text-sm text-gray-500">{item.description}</p>
-
-              {/* <div
-                onClick={() => {
-                  window.open(item.href, '_blank');
-                }}
-                className="flex flex-1 flex-col justify-end cursor-pointer"
-              >
-                <p className="text-sm italic text-blue-500">Read full story</p>
-              </div> */}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

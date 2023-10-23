@@ -12,9 +12,6 @@ import SlideoverMenu from './slideover-menu';
 import { useSearch } from '../lib/search-context';
 import { isValidUrl } from '../lib/utils';
 
-const API_KEY = '298b0ef74a974050bc98ca61cac50d48'; // replace with your API key
-const BASE_URL = 'https://newsapi.org/v2';
-
 const getTopHeadlines = async (country = 'bbc-news') => {
   try {
     // const response = await fetch(
@@ -40,27 +37,7 @@ const getTopHeadlines = async (country = 'bbc-news') => {
   }
 };
 
-const scrape = async (url: string) => {
-  try {
-    const apiURL = '/api/scrape';
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ url: url })
-    };
-
-    const response = await fetch(apiURL, options);
-    const data = await response.json();
-    return data;
-  } catch (err) {
-    console.error('err', err);
-    return '';
-  }
-};
-
-const generateNews = async (title: string, description: string) => {
+const getNews = async (body: { title: string; content: string }) => {
   try {
     const apiURL = '/api/news';
     const options = {
@@ -68,12 +45,31 @@ const generateNews = async (title: string, description: string) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ title: title, description: description })
+      body: JSON.stringify(body)
     };
 
     const response = await fetch(apiURL, options);
     const data = await response.json();
     return data;
+  } catch (err) {
+    console.error('err1', err);
+    return '';
+  }
+};
+
+const generateNews = async () => {
+  try {
+    const apiURL = `api/all`;
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const response = await fetch(apiURL, options);
+    const data = await response.json();
+    return data.data.storyList.filter((item: any) => 'story' in item);
   } catch (err) {
     console.error('err', err);
     return '';
@@ -110,43 +106,29 @@ export default async function IndexPage({
   const [open, setOpen] = useState(true);
 
   useEffect(() => {
-    initNews();
-  }, []);
-
-  useEffect(() => {
-    // console.log('news', newsItem, open);
     setOpen(true);
   }, [newsItem]);
 
-  const initNews = async () => {
-    const newsResponse = await getTopHeadlines();
-    setNews(newsResponse);
-  };
-
-  const handleCrawl = async () => {
+  const handleGenerate = async (content: string) => {
     setLoading(true);
-    if (isValidUrl(searchText)) {
-      const result = await scrape(searchText);
-      console.log('result', result);
-      setResults(result);
-    } else {
-      alert('invalid URL');
-    }
+    const result = await getNews({ content, title: newsItem.seoHeadline });
+    setResults(result);
     setSearchText('');
     setLoading(false);
   };
 
-  const handleNewsGenration = async () => {
-    setLoading(true);
+  const handleNewsGeneration = async () => {
     try {
-      const result = await generateNews(newsItem.name, newsItem.description);
-      // console.log('result', result);
-      setResults(result);
+      const result = await generateNews();
+      setNews(result);
     } catch (error) {
       setSearchText('');
-      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    handleNewsGeneration();
+  }, []);
 
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
@@ -154,7 +136,7 @@ export default async function IndexPage({
       <Text>Enter BBC article link below</Text>
       <div className="flex gap-4 mt-4">
         <Search />
-        <Button loading={loading} variant="secondary" onClick={handleCrawl}>
+        <Button loading={loading} variant="secondary">
           Generate News
         </Button>
       </div>
@@ -171,7 +153,7 @@ export default async function IndexPage({
           <SlideoverMenu
             newsItem={newsItem}
             openMenu={open}
-            handleGenerate={handleCrawl}
+            handleGenerate={handleGenerate}
           />
         ) : (
           <></>
